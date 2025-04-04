@@ -325,17 +325,35 @@ Eficiencia: La lógica de detección debe ser rápida y no consumir muchos recur
 Gracias al uso de la paridad en los bits, el código de Hamming permite detectar errores al calcular la paridad de un arreglo de bits. En este proceso, cada bit de paridad se encarga de verificar tres bits de información.
 
 #### 4.2 Explicación del Código
-El código se implementa en Verilog y se compone de un módulo llamado hamming_detection. A continuación se detalla la lógica del código:
 
-Declaración de Entradas y Salidas:
-Se declaran las entradas y salidas del módulo. dataRaw es un vector de 7 bits que representa los datos recibidos, y posError es un vector de 3 bits que indicará la posición del error.
-Lógica de Detección:
-En el bloque always @(*), se realiza la lógica para calcular la posición del error:
-posError[0] se calcula como la XOR de los bits de paridad correspondientes a la posición 1 (bit 0), 3 (bit 2), 5 (bit 4) y 7 (bit 6).
-posError[1] se calcula como la XOR de los bits de paridad correspondientes a la posición 2 (bit 1), 3 (bit 2), 6 (bit 5) y 7 (bit 6).
-posError[2] se calcula como la XOR de los bits de paridad correspondientes a la posición 4 (bit 3), 5 (bit 4), 6 (bit 5) y 7 (bit 6).
-Interpretación de la Salida:
-El resultado en posError indica la posición del error en el vector dataRaw. Si posError es 000, no se ha detectado ningún error. Si tiene un valor diferente, indica la posición del bit erróneo (1-indexado).
+
+1. Declaración del Módulo
+```SystemVerilog
+
+
+module hamming_detection (
+  input [6:0] dataRaw,
+  output reg [2:0] posError
+);
+```
+module hamming_detection: Define el módulo llamado hamming_detection.
+input [6:0] dataRaw: Declara una entrada de 7 bits que representa el código Hamming que se va a verificar en busca de errores.
+output reg [2:0] posError: Declara una salida de 3 bits que indicará la posición del error detectado. Se utiliza reg porque la salida se asigna dentro de un bloque always.
+
+2. Cálculo de la Posición del Error
+```SystemVerilog
+
+
+posError[0] = dataRaw[0] ^ dataRaw[2] ^ dataRaw[4] ^ dataRaw[6];
+posError[1] = dataRaw[1] ^ dataRaw[2] ^ dataRaw[5] ^ dataRaw[6];
+posError[2] = dataRaw[3] ^ dataRaw[4] ^ dataRaw[5] ^ dataRaw[6];
+```
+
+XOR (^): Se utilizan operaciones XOR para calcular los bits de paridad que se utilizan para determinar la posición del error:
+posError[0]: Se calcula utilizando los bits dataRaw[0], dataRaw[2], dataRaw[4] y dataRaw[6]. Este bit indica si hay un error en los bits que cubre.
+posError[1]: Se calcula utilizando los bits dataRaw[1], dataRaw[2], dataRaw[5] y dataRaw[6]. Este bit también indica la presencia de un error en su conjunto de bits.
+posError[2]: Se calcula utilizando los bits dataRaw[3], dataRaw[4], dataRaw[5] y dataRaw[6]. Este bit indica si hay un error en los bits que cubre.
+
 
 #### 4.3 Diagrama del Codificador Hamming (7,4)
 
