@@ -26,10 +26,12 @@ Una vez identificado el error inducido, se despliega la información correspondi
 #### 1. Encabezado del módulo
 ```SystemVerilog
 module top (
-    input  [3:0] in,              
-    input  [6:0] dataRaw,     
-    input        selector,        
-    output [6:0] led              
+    input  [3:0] in,              // 4 bits de datos originales
+    input  [6:0] dataRaw,         // Código Hamming con error manual (7 switches)
+    input        selector,        // 0 = usar encoder | 1 = usar switches con error
+    output [6:0] led,             // Muestra los 7 bits corregidos
+    output [6:0] segments,        // Muestra el dato corregido en hexadecimal (4 bits)
+    output [6:0] segments_error   // Muestra el bit donde se detectó el error
 );
 ```
 #### 2. Parámetros
@@ -181,7 +183,7 @@ https://github.com/joan000001/verilog.githttps://github.com/joan000001/verilog.g
 Descripción y resultados de las pruebas hechas
 
 
-### 3.1 Módulo 2
+### 3.2 Módulo 2
 
 #### 1. Encabezado del módulo
 ```SystemVerilog
@@ -294,7 +296,7 @@ Descripción y resultados de las pruebas hechas
 
 
 
-### 3.2 Módulo 3
+### 3.3 Módulo 3
 
 #### 1. Encabezado del módulo
 
@@ -363,7 +365,7 @@ posError[2]: Se calcula utilizando los bits dataRaw[3], dataRaw[4], dataRaw[5] y
 Descripción y resultados de las pruebas hechas
 
 
-### 3.3 Módulo 4
+### 3.4 Módulo 4
 
 #### 1. Encabezado del módulo
 ```SystemVerilog
@@ -417,7 +419,7 @@ Descripción y resultados de las pruebas hechas
 
 
 
-### 3.4 Módulo 5
+### 3.5 Módulo 5
 
 #### 1. Encabezado del módulo
 ```SystemVerilog
