@@ -1,0 +1,108 @@
+$date
+	Tue Apr 01 23:58:10 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_hamming74 $end
+$var wire 7 ! led [6:0] $end
+$var wire 7 " dataRaw [6:0] $end
+$var reg 4 # switch_input [3:0] $end
+$scope module hamming_encoder $end
+$var wire 4 $ in [3:0] $end
+$var reg 1 % d3 $end
+$var reg 1 & d5 $end
+$var reg 1 ' d6 $end
+$var reg 1 ( d7 $end
+$var reg 7 ) ou [6:0] $end
+$var reg 1 * p1 $end
+$var reg 1 + p2 $end
+$var reg 1 , p4 $end
+$upscope $end
+$scope module uut $end
+$var wire 7 - dataRaw [6:0] $end
+$var wire 7 . test_input [6:0] $end
+$var wire 3 / posError [2:0] $end
+$var wire 7 0 led [6:0] $end
+$var wire 7 1 dataCorregido [6:0] $end
+$var wire 7 2 dataCorrecta [6:0] $end
+$scope module correccion_inst $end
+$var wire 7 3 dataRaw [6:0] $end
+$var wire 3 4 sindrome [2:0] $end
+$var reg 7 5 correccion [6:0] $end
+$var reg 4 6 dataCorrecta [3:0] $end
+$upscope $end
+$scope module display_inst $end
+$var wire 7 7 coregido [6:0] $end
+$var reg 7 8 led [6:0] $end
+$upscope $end
+$scope module hamming_inst $end
+$var wire 7 9 dataRaw [6:0] $end
+$var reg 3 : posError [2:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b0 :
+b1010101 9
+b1010101 8
+b1010101 7
+b1011 6
+b1010101 5
+b0 4
+b1010101 3
+b1011 2
+b1010101 1
+b1010101 0
+b0 /
+b1010101 .
+b0 -
+0,
+0+
+0*
+b0 )
+0(
+0'
+0&
+0%
+b0 $
+b0 #
+b0 "
+b1010101 !
+$end
+#10000
+b1010010 "
+b1010010 )
+b1010010 -
+1+
+1&
+1(
+b1010 #
+b1010 $
+#20000
+b110011 "
+b110011 )
+b110011 -
+1*
+1'
+0(
+b110 #
+b110 $
+#30000
+b1111111 "
+b1111111 )
+b1111111 -
+1,
+1%
+1(
+b1111 #
+b1111 $
+#40000
