@@ -400,15 +400,69 @@ El código de Hamming no solo permite la detección de errores, sino que tambié
 
 #### 4.2 Explicación del Código
 
-Se declaran las entradas y salidas del módulo. dataRaw es un vector de 7 bits que representa los datos recibidos, sindrome es un vector de 3 bits que indica la posición del error, correccion es un vector de 7 bits que contendrá los datos corregidos, y dataCorrecta es un vector de 4 bits que contendrá los datos originales.
+- 1. Declaración del Módulo
+```SystemVerilog
 
-- Lógica de Corrección:
-En el bloque always @(*), se inicializa correccion con el valor de dataRaw.
-Si el sindrome no es 000, se utiliza una estructura case para determinar qué bit debe ser corregido:
-Cada caso corresponde a un valor del síndrome que indica la posición del bit erróneo. Se utiliza la operación de negación (~) para corregir el bit correspondiente en correccion.
-Por ejemplo, si sindrome es 3'b001, se corrige el primer bit (correccion[0]).
-Extracción de Datos Originales:
-Después de la corrección, se extraen los 4 bits de datos originales de los bits corregidos. Los bits de datos originales se asignan a dataCorrecta en el orden correspondiente.
+
+module correccion_error(
+  input  [6:0] dataRaw,
+  input  [2:0] sindrome,
+  output reg [6:0] correccion,
+  output reg [3:0] dataCorrecta
+);
+```
+
+module correccion_error: Define el módulo llamado correccion_error.
+input [6:0] dataRaw: Declara una entrada de 7 bits que representa el código Hamming que puede contener un error.
+input [2:0] sindrome: Declara una entrada de 3 bits que representa el síndrome, que indica la posición del error detectado.
+output reg [6:0] correccion: Declara una salida de 7 bits que contendrá el código Hamming corregido. Se utiliza reg porque la salida se asigna dentro de un bloque always.
+output reg [3:0] dataCorrecta: Declara una salida de 4 bits que contendrá los datos originales extraídos del código Hamming corregido.
+ 
+- 2. Inicialización de la Salida de Corrección
+```SystemVerilog
+
+
+correccion = dataRaw;
+
+```
+Se inicializa la señal correccion con el valor de dataRaw. Esto significa que, por defecto, la salida corregida será igual a la entrada, a menos que se detecte un error.
+- 3. Corrección del Error
+```SystemVerilog
+
+
+if (sindrome != 3'b000) begin
+    case (sindrome)
+        3'b001: correccion[0] = ~correccion[0]; // Bit 1
+        3'b010: correccion[1] = ~correccion[1]; // Bit 2
+        3'b011: correccion[2] = ~correccion[2]; 
+        3'b100: correccion[3] = ~correccion[3];
+        3'b101: correccion[4] = ~correccion[4];
+        3'b110: correccion[5] = ~correccion[5];
+        3'b111: correccion[6] = ~correccion[6];
+        default: /* no action */;
+    endcase
+end
+```
+
+if (sindrome != 3'b000): Se verifica si el síndrome indica que hay un error. Si sindrome es 000, no se realiza ninguna corrección.
+case (sindrome): Se utiliza una estructura case para determinar qué bit debe ser corregido según el valor del síndrome.
+
+Cada caso corresponde a un valor de sindrome que indica la posición del bit erróneo. Se utiliza la operación NOT (~) para invertir el bit correspondiente en correccion.
+- 4. Extracción de Datos Originales
+```SystemVerilog
+
+
+dataCorrecta[3] = correccion[6];
+dataCorrecta[2] = correccion[5];
+dataCorrecta[1] = correccion[4];
+dataCorrecta[0] = correccion[2];
+
+```
+Aquí se extraen los 4 bits de datos originales del código Hamming corregido. Los bits se asignan a dataCorrecta en el orden correspondiente:
+dataCorrecta[3]: Bit de datos original correspondiente al bit 6 del código Hamming corregido.
+dataCorrecta[2]: Bit de datos original correspondiente al bit 5.
+dataCorrecta[1]: Bit de datos original correspondiente al bit 4.
+dataCorrecta[0]: Bit de datos original correspondiente al bit 2.
 
 #### 4.3 Diagrama del Codificador Hamming (7,4)
 
