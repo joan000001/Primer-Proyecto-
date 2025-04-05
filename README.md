@@ -626,7 +626,7 @@ led[6] = ~coregido[6];
 ```
 Aquí se asignan los valores de coregido a los LEDs. Cada bit de coregido se invierte (usando la operación NOT ~) antes de ser asignado a la salida led. Esto se hace porque, debido a la conexión física de los LEDs dentro de la FPGA, los LEDs son activados en bajo, lo que significa que se encienden cuando la señal es baja (0) y se apagan cuando la señal es alta (1).
 
-![alt text](image.png)
+![image Alt](https://github.com/joan000001/Primer-Proyecto-/blob/5ad86bdd1f0cd77a09a80ed6ae88e5607603d8bd/primera.png)
 
 
 
