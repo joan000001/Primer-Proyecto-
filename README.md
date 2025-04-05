@@ -626,7 +626,7 @@ led[6] = ~coregido[6];
 ```
 Aquí se asignan los valores de coregido a los LEDs. Cada bit de coregido se invierte (usando la operación NOT ~) antes de ser asignado a la salida led. Esto se hace porque, debido a la conexión física de los LEDs dentro de la FPGA, los LEDs son activados en bajo, lo que significa que se encienden cuando la señal es baja (0) y se apagan cuando la señal es alta (1).
 
-![alt text](image.png)
+![alt text]([image.png](https://github.com/joan000001/Primer-Proyecto-/blob/main/doc/imagenes/image.png?raw=true))
 
 
 
@@ -754,33 +754,6 @@ Resultados obtenidos al ejecutar el make test
 
 
 
-#### 5. Testbench
-Descripción y resultados de las pruebas hechas
-
-```SystemVerilog
-  bcd_val = 4'hA; 
-        #1;
-        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
-        bcd_val = 4'h0; 
-        #1;
-        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
-        bcd_val = 4'h2; 
-        #1;
-        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
-        bcd_val = 4'h9; 
-        #1;
-        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
-```
-Resultados obtenidos al ejecutar el make test
-
-- sevseg: bcd=a => seg=0001000
-- sevseg: bcd=0 => seg=1000000
-- sevseg: bcd=2 => seg=0100100
-- sevseg: bcd=9 => seg=0010000
-
-
-
-
 ## 4. Consumo de recursos
 Resumen de Recursos Utilizados
 
@@ -842,7 +815,7 @@ Finalmente, uno de los errores más críticos estuvo relacionado con la correcta
 ## 1. Primera Medición
 Para la primera medición realizada el oscilador de anillos se utilizaron cinco compuertas not el resultado de la medición se muestra en la siguiente imagen
 
-![alt text](<WhatsApp Image 2025-04-02 at 10.54.11 PM.jpeg>)
+![alt text]([<WhatsApp Image 2025-04-02 at 10.54.11 PM.jpeg>](https://github.com/joan000001/Primer-Proyecto-/blob/07a8b5b896b59ab1701e7ded607bd94e1d18cbed/doc/imagenes/ima%202.png))
 
 - Tención max:3.1 v
 - Tencion min:0.231 mv
@@ -855,7 +828,7 @@ En la primera medición, se observa la señal generada por un oscilador en anill
 
 Para la segunda medición se conectaron tres inversores en anillo
 
-![alt text](<WhatsApp Image 2025-04-02 at 10.54.11 PM (2).jpeg>)
+![alt text]([<WhatsApp Image 2025-04-02 at 10.54.11 PM (2).jpeg>](https://github.com/joan000001/Primer-Proyecto-/blob/2a23d17fb3c32fc9e1a3391aa760726488216726/doc/imagenes/ima%202.png))
 
 - Tención max:4.40 v
 - Tencion min:-1.2 v
@@ -868,7 +841,7 @@ Para la segunda medición se conectaron tres inversores en anillo
 
 Para la segunda medición realizada se conectaron tres inversores en anillo y se alargó la conexión con un cable de aproximadamente un metro
 
-![alt text](83c0b9d9-42ce-4fd0-9305-fb2c32216c30.jfif)
+![alt text]([83c0b9d9-42ce-4fd0-9305-fb2c32216c30.jfif](https://github.com/joan000001/Primer-Proyecto-/blob/07a8b5b896b59ab1701e7ded607bd94e1d18cbed/doc/imagenes/ima%205.jfif))
 
 - Tención max:6.48 v
 - Tencion min:-2.1 v
@@ -885,7 +858,7 @@ Al introducir un metro de cable calibre 22 entre la salida del último inversor 
 
 Finalmente para la última medición se conecta la entrada con la salida de una compuerta 
 
-![alt text](7c8bf879-37a3-4b93-81af-5d4e2611bcfa.jfif)
+![alt text]([7c8bf879-37a3-4b93-81af-5d4e2611bcfa.jfif](https://github.com/joan000001/Primer-Proyecto-/blob/07a8b5b896b59ab1701e7ded607bd94e1d18cbed/doc/imagenes/ima%20g6.jfif))
 
 - Tención max:376 mv
 - Tencion min:-552 v
