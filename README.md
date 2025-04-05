@@ -37,7 +37,6 @@ module top (
 #### 2. Parámetros
 
 ????????????????????
-
 #### 3. Entradas y salidas:
 
 Entradas:
@@ -50,8 +49,6 @@ Salidas:
 led: [6:0] (7 bits) - Datos corregidos mostrados en LEDs.
 segments: [6:0] (7 bits) - Dato corregido en formato hexadecimal.
 segments_error: [6:0] (7 bits) - Bit donde se detectó el error.
-
-
 #### 4. Criterios de diseño
 
 
@@ -175,14 +172,6 @@ sevseg display_error(
 sevseg display_error: Se instancia otro módulo de visualización que muestra la posición del error en un display de 7 segmentos.
 
 
-#### 4.3 Diagrama del Codificador Hamming (7,4)
-https://github.com/joan000001/verilog.githttps://github.com/joan000001/verilog.githttps://github.com/joan000001/verilog.githttps://github.com/joan000001/verilog.git
-
-
-#### 5. Testbench
-Descripción y resultados de las pruebas hechas
-
-
 ### 3.2 Módulo 2
 
 #### 1. Encabezado del módulo
@@ -287,12 +276,6 @@ ou[2]: Bit de datos d3.
 ou[1]: Bit de paridad p2.
 ou[0]: Bit de paridad p1.
 
-#### 4.3 Diagrama del Codificador Hamming (7,4)
-https://github.com/joan000001/verilog.githttps://github.com/joan000001/verilog.githttps://github.com/joan000001/verilog.githttps://github.com/joan000001/verilog.git
-
-
-#### 5. Testbench
-Descripción y resultados de las pruebas hechas
 
 
 
@@ -355,14 +338,6 @@ XOR (^): Se utilizan operaciones XOR para calcular los bits de paridad que se ut
 posError[0]: Se calcula utilizando los bits dataRaw[0], dataRaw[2], dataRaw[4] y dataRaw[6]. Este bit indica si hay un error en los bits que cubre.
 posError[1]: Se calcula utilizando los bits dataRaw[1], dataRaw[2], dataRaw[5] y dataRaw[6]. Este bit también indica la presencia de un error en su conjunto de bits.
 posError[2]: Se calcula utilizando los bits dataRaw[3], dataRaw[4], dataRaw[5] y dataRaw[6]. Este bit indica si hay un error en los bits que cubre.
-
-
-#### 4.3 Diagrama del Codificador Hamming (7,4)
-
-
-
-#### 5. Testbench
-Descripción y resultados de las pruebas hechas
 
 
 ### 3.4 Módulo 4
@@ -464,11 +439,6 @@ dataCorrecta[2]: Bit de datos original correspondiente al bit 5.
 dataCorrecta[1]: Bit de datos original correspondiente al bit 4.
 dataCorrecta[0]: Bit de datos original correspondiente al bit 2.
 
-#### 4.3 Diagrama del Codificador Hamming (7,4)
-
-
-#### 5. Testbench
-Descripción y resultados de las pruebas hechas
 
 
 
@@ -505,15 +475,120 @@ led (7 bits): Representa la salida invertida de la entrada coregido, que se cone
 
 #### 4.2 Explicación del Código
 
-El código declara un módulo display_7bits_leds que cuenta con una entrada coregido de 7 bits y una salida led de 7 bits. La lógica dentro del bloque always @* realiza la inversión bit a bit de la entrada y asigna los valores resultantes a la salida led.
+- 1. Declaración del Módulo
+```SystemVerilog
 
-#### 4.3 Diagrama del Codificador Hamming (7,4)
+
+module display_7bits_leds (
+    input [6:0] coregido,
+    output reg [6:0] led
+);
+```
+module display_7bits_leds: Define el módulo llamado display_7bits_leds.
+input [6:0] coregido: Declara una entrada de 7 bits que representa el código Hamming corregido que se desea mostrar en los LEDs.
+output reg [6:0] led: Declara una salida de 7 bits que representará el estado de los LEDs. Se utiliza reg porque la salida se asigna dentro de un bloque always.
+
+- 2. Asignación de los LEDs
+```SystemVerilog
 
 
-#### 5. Testbench
+led[0] = ~coregido[0];
+led[1] = ~coregido[1];
+led[2] = ~coregido[2];
+led[3] = ~coregido[3];
+led[4] = ~coregido[4];
+led[5] = ~coregido[5];
+led[6] = ~coregido[6];
+```
+Aquí se asignan los valores de coregido a los LEDs. Cada bit de coregido se invierte (usando la operación NOT ~) antes de ser asignado a la salida led. Esto se hace porque, debido a la conexión física de los LEDs dentro de la FPGA, los LEDs son activados en bajo, lo que significa que se encienden cuando la señal es baja (0) y se apagan cuando la señal es alta (1).
+
+![alt text](image.png)
+
+
+### 3.6 Módulo 6
+
+
+#### 1. Encabezado del módulo
+```SystemVerilog
+
+module sevseg(
+    input  [3:0] bcd,       
+    output reg [6:0] segments
+);
+```
+#### 2. Parámetros
+
+Este módulo no utiliza parámetros configurables, ya que se trata de una implementación fija de inversión de bits.
+
+#### 3. Entradas y salidas:
+
+Entradas:
+
+coregido (7 bits): Representa la señal de entrada que se desea visualizar en los LEDs.
+
+Salidas:
+
+led (7 bits): Representa la salida invertida de la entrada coregido, que se conecta a un conjunto de LEDs.
+
+
+#### 4. Criterios de diseño
+
+#### 4.1 Introducción
+
+- El diseño de este módulo sigue una arquitectura combinacional sencilla, donde la salida se calcula en función de la entrada sin necesidad de registros o almacenamiento temporal. Esto significa que los cambios en la entrada se reflejan inmediatamente en la salida.
+
+#### 4.2 Explicación del Código
+
+- 1. Declaración del Módulo
+
+```SystemVerilog
+
+module sevseg(
+    input  [3:0] bcd,    
+    output reg [6:0] segments 
+);
+```
+
+module sevseg: Define el módulo.
+input [3:0] bcd: Declara una entrada de 4 bits que representa un número en formato BCD. Este número puede ser del 0 al 15, aunque solo los valores del 0 al 9 se utilizan comúnmente para mostrar dígitos en un display de 7 segmentos.
+output reg [6:0] segments: Declara una salida de 7 bits que representa el estado de los segmentos del display (a-g). Se utiliza reg porque la salida se asigna dentro de un bloque always.
+
+3. Conversión de BCD a Segmentos
+
+
+```SystemVerilog
+case (bcd)
+    4'b0000: segments = 7'b1000000; // 0
+    4'b0001: segments = 7'b1111001; // 1
+    4'b0010: segments = 7'b0100100; // 2
+    4'b0011: segments = 7'b0110000; // 3
+    4'b0100: segments = 7'b0011001; // 4
+    4'b0101: segments = 7'b0010010; // 5
+    4'b0110: segments = 7'b0000010; // 6
+    4'b0111: segments = 7'b1111000; // 7
+    4'b1000: segments = 7'b0000000; // 8
+    4'b1001: segments = 7'b0010000; // 9
+    4'b1010: segments = 7'b0001000; // A
+    4'b1011: segments = 7'b0000011; // b
+    4'b1100: segments = 7'b1000110; // C
+    4'b1101: segments = 7'b0100001; // d
+    4'b1110: segments = 7'b0000110; // E
+    4'b1111: segments = 7'b0001110; // F
+    default: segments = 7'b1100011; // Apagado
+endcase
+```
+case (bcd): Se utiliza una estructura case para determinar qué segmentos del display deben encenderse según el valor de bcd.
+Cada caso corresponde a un valor de bcd y asigna un valor de 7 bits a segments, donde cada bit representa un segmento del display de 7 segmentos (a-g).
+Por ejemplo, 7'b1000000 enciende el segmento "a" para mostrar el número 0, mientras que 7'b1111001 enciende los segmentos necesarios para mostrar el número 1.
+Los valores de bcd de 10 a 15 (A-F) también están mapeados, lo que permite mostrar letras en el display.
+default: Si el valor de bcd no coincide con ninguno de los casos anteriores, se asigna un valor que apaga el display (en este caso, 7'b1100011).
+
+
+### 3.7 Diagrama del Codificador Hamming (7,4)
+
+
+### 3.8 Testbench
 Descripción y resultados de las pruebas hechas
-
-
 
 
 
