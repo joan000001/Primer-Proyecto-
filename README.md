@@ -36,7 +36,15 @@ module top (
 ```
 #### 2. Parámetros
 
-????????????????????
+El módulo superior recibe tres parámetros principales:
+
+in:Es unaInterruptor DIP . Esta señal será enviada al módulo de Hamming para su codificación.
+
+dataraw: Es una señal de entrada de 7 bits, también proveniente de unInterruptor DIP . Representa una palabra ya codificada con un error inducido intencionalmente, con el propósito de ser corregida por el sistema.
+
+selector: Permite elegir qué información se mostrará en la pantalla de siete segmentos y qué datos serán enviados a los LED. Según su valor, "0" selecciona la palabra codificada (in) o "1", selecciona la palabra corregida (proveniente de dataraw).
+
+
 #### 3. Entradas y salidas:
 
 Entradas:
@@ -171,6 +179,52 @@ sevseg display_error(
 ```
 sevseg display_error: Se instancia otro módulo de visualización que muestra la posición del error en un display de 7 segmentos.
 
+#### 4.3 Diagrama del Codificador Hamming (7,4)
+
+
+#### 5. Testbench
+
+Se define el valor que va a tener selector. Se genera digitalmente la señal recibida, ya sea "in" o "dataRaw" se evalúan los resultados
+
+=== Pruebas top ===
+```SystemVerilog
+        $display("Caso | selector | in (ref) | dataRaw (error) | Corrected (7-bit) | 7seg (hex)");
+        
+        // Caso 1: Modo encoder (selector = 0)
+        selector = 0;
+        in = 4'b1010;
+        dataRaw = 7'b0000000; 
+        #10;
+        $display("  1   |   %b    |   %b   |    %b    |      %b      |  %b", 
+                  selector, in, dataRaw, led, segments);
+        
+        // Caso 2: Modo error (selector = 1)
+        selector = 1;
+        in = 4'b1010;
+        dataRaw = 7'b1000101;
+        #10;
+        $display("  2   |   %b    |   %b   |    %b    |      %b      |  %b", 
+                  selector, in, dataRaw, led, segments);
+
+        // Caso 3: Otro valor en modo error
+        selector = 1;
+        in = 4'b0110;
+        dataRaw = 7'b0110010;
+        #10;
+        $display("  3   |   %b    |   %b   |    %b    |      %b      |  %b", 
+                  selector, in, dataRaw, led, segments);
+```
+Resultados obtenidos al ejecutar el make test
+
+========================== Pruebas del modulo top ================================
+Caso | selector | in (ref) | dataRaw (error) | Corrected (7-bit) | 7seg (hex)
+  1   |   0    |   1010   |    0000000    |      0101101      |  0001000
+Caso | selector | in (ref) | dataRaw (error) | Corrected (7-bit) | 7seg (hex)
+  1   |   0    |   1010   |    0000000    |      0101101      |  0001000
+  1   |   0    |   1010   |    0000000    |      0101101      |  0001000
+  2   |   1    |   1010   |    1000101    |      0101010      |  0000011
+  3   |   1    |   0110   |    0110010    |      1001100      |  0000010
+
 
 ### 3.2 Módulo 2
 
@@ -183,7 +237,7 @@ sevseg display_error: Se instancia otro módulo de visualización que muestra la
 ```
 #### 2. Parámetros
 
-El módulo hamming74 implementa un código de Hamming (7,4), que es un esquema de corrección de errores que permite detectar y corregir errores en la transmisión de datos. Este código toma 4 bits de datos de entrada y genera 7 bits de salida, que incluyen los bits de datos originales y los bits de paridad necesarios para la corrección de errores.
+El parámetro principal es 'in', que proviene del Deep Switch y transmite cuatro bits de información al módulo para ser codificados según su paridad.
 
 #### 3. Entradas y salidas
 - Entradas:
@@ -276,6 +330,30 @@ ou[2]: Bit de datos d3.
 ou[1]: Bit de paridad p2.
 ou[0]: Bit de paridad p1.
 
+#### 4.3 Diagrama del Codificador Hamming (7,4)
+
+
+#### 5. Testbench
+Se define los inputs de entrada y se evalúan los resultados
+```SystemVerilog
+
+in_enc = 4'b1010;
+#1;
+$display("hamming74: in=%b => out=%b", in_enc, out_enc);
+in_enc = 4'b1111;
+#1;
+$display("hamming74: in=%b => out=%b", in_enc, out_enc);
+in_enc = 4'b0000;
+#1;
+$display("hamming74: in=%b => out=%b", in_enc, out_enc);
+```
+Resultados obtenidos al ejecutar el make test
+
+hamming74: in=1010 => out=1010010
+hamming74: in=1111 => out=1111111
+hamming74: in=0000 => out=0000000
+
+
 
 
 
@@ -292,7 +370,7 @@ module hamming_detection (
 
 #### 2. Parámetros
 
-El módulo de detección de errores con código de Hamming recibe la señal dataRaw , proveniente directamente del Dish Switch conectado  a la FPGA. Esta señal está compuesta por un código de Hamming de 7 bits con un error inducido intencionalmente, permitiendo al usuario modificar la entrada para evaluar la implementación del sistema.
+El parámetro recibido en este módulo es 'dataRaw', que se encarga de transmitir una palabra de 7 bits con un error inducido, permitiendo su detección y posterior corrección
 
 #### 3. Entradas y salidas
 Entradas:
@@ -338,6 +416,39 @@ XOR (^): Se utilizan operaciones XOR para calcular los bits de paridad que se ut
 posError[0]: Se calcula utilizando los bits dataRaw[0], dataRaw[2], dataRaw[4] y dataRaw[6]. Este bit indica si hay un error en los bits que cubre.
 posError[1]: Se calcula utilizando los bits dataRaw[1], dataRaw[2], dataRaw[5] y dataRaw[6]. Este bit también indica la presencia de un error en su conjunto de bits.
 posError[2]: Se calcula utilizando los bits dataRaw[3], dataRaw[4], dataRaw[5] y dataRaw[6]. Este bit indica si hay un error en los bits que cubre.
+
+#### 4.3 Diagrama del Codificador Hamming (7,4)
+
+
+
+#### 5. Testbench
+
+Descripción y resultados de las pruebas hechas
+
+Errores inducidos en orden:
+Priemra prueba error en el bit 5
+Segunda prueba error en el bit 1
+Tersera pueba prueba error en el bit 1
+
+
+
+
+```SystemVerilog
+  data_det = 7'b1000101;  
+  #1;
+  $display("hamming_detection: dataRaw=%b => posError=%b", data_det, pos_error);
+  data_det = 7'b0000001;  
+  #1;
+  $display("hamming_detection: dataRaw=%b => posError=%b", data_det, pos_error);
+  data_det = 7'b0111111;  
+  #1;
+  $display("hamming_detection: dataRaw=%b => posError=%b", data_det, pos_error);
+```
+Resultados obtenidos al ejecutar el make test
+
+hamming_detection: dataRaw=1000101 => posError=101
+hamming_detection: dataRaw=0000001 => posError=001
+hamming_detection: dataRaw=0111111 => posError=111
 
 
 ### 3.4 Módulo 4
@@ -584,10 +695,7 @@ Los valores de bcd de 10 a 15 (A-F) también están mapeados, lo que permite mos
 default: Si el valor de bcd no coincide con ninguno de los casos anteriores, se asigna un valor que apaga el display (en este caso, 7'b1100011).
 
 
-### 3.7 Diagrama del Codificador Hamming (7,4)
 
-
-### 3.8 Testbench
 Descripción y resultados de las pruebas hechas
 
 
@@ -616,3 +724,32 @@ Descripción y resultados de las pruebas hechas
 ## Apendices:
 ### Apendice 1:
 texto, imágen, etc
+
+# Oscilador en anillo
+
+## 1. Primera Medición
+Para la primera medición realizada el oscilador de anillos se utilizaron cinco compuertas not el resultado de la medición se muestra en la siguiente imagen
+
+imagen
+
+- Tención max:6.48 v
+- Tencion min:-2.1 v
+- Tiempo aproximado de la osilación: 50 ns
+- Frecianecia de Ocilación aproximada: 20MHz
+
+En la primera medición, se observa la señal generada por un oscilador en anillo basado en un 74LS04. A diferencia de la onda cuadrada ideal, la forma de la señal presenta una ligera curvatura en los flancos, producto de los tiempos de carga y los retardos de propagación propios de la familia TTL. Aun así, los tiempos de subida y bajada, cercanos a 15 ns, se encuentran dentro de los valores típicos para un 74LS04. Además, se aprecian picos por encima y por debajo de los niveles esperados, causados principalmente por la inductancia y capacidad parásitas del circuito, así como por el acoplamiento de la sonda del osciloscopio. En conjunto, estos resultados confirman el comportamiento previsto para un oscilador en anillo con compuertas TTL.
+
+## 2. Segunda Medición
+
+Para la segunda medición se conectaron tres inversores en anillo
+
+imagen
+
+- Tención max:6.48 v
+- Tencion min:-2.1 v
+- Tiempo aproximado de la osilación: 75 ns
+- Frecianecia de Ocilación aproximada: 13.3MHz
+
+
+Al introducir un metro de cable calibre 22 entre la salida del último inversor y la entrada del primero, se aprecian variaciones en los tiempos de subida y bajada, así como en el período de oscilación. Esto coincide con el retardo adicional aportado por la longitud del cable y sus elementos parásitos (resistencia, inductancia, etc.), que prolongan el tiempo total de propagación de la señal.
+

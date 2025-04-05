@@ -1,5 +1,5 @@
 $date
-	Thu Apr 03 15:04:25 2025
+	Fri Apr 04 20:17:36 2025
 $end
 $version
 	Icarus Verilog
@@ -8,49 +8,98 @@ $timescale
 	1ps
 $end
 $scope module top_tb $end
-$var wire 7 ! led [6:0] $end
-$var reg 7 " dataRaw [6:0] $end
-$var reg 4 # in [3:0] $end
-$var reg 1 $ selector $end
+$var wire 7 ! segments_error [6:0] $end
+$var wire 7 " segments [6:0] $end
+$var wire 7 # seg_out [6:0] $end
+$var wire 3 $ pos_error [2:0] $end
+$var wire 7 % out_enc [6:0] $end
+$var wire 7 & leds_out [6:0] $end
+$var wire 7 ' led [6:0] $end
+$var wire 4 ( data_correcta [3:0] $end
+$var wire 7 ) corregido [6:0] $end
+$var reg 4 * bcd_val [3:0] $end
+$var reg 7 + coregido_leds [6:0] $end
+$var reg 7 , dataRaw [6:0] $end
+$var reg 7 - data_corr [6:0] $end
+$var reg 7 . data_det [6:0] $end
+$var reg 4 / in [3:0] $end
+$var reg 4 0 in_enc [3:0] $end
+$var reg 1 1 selector $end
+$var reg 3 2 sindrome [2:0] $end
+$scope module correction_tb $end
+$var wire 7 3 dataRaw [6:0] $end
+$var wire 3 4 sindrome [2:0] $end
+$var reg 7 5 correccion [6:0] $end
+$var reg 4 6 dataCorrecta [3:0] $end
+$upscope $end
+$scope module detection_tb $end
+$var wire 7 7 dataRaw [6:0] $end
+$var reg 3 8 posError [2:0] $end
+$upscope $end
+$scope module encoder_tb $end
+$var wire 4 9 in [3:0] $end
+$var reg 1 : d3 $end
+$var reg 1 ; d5 $end
+$var reg 1 < d6 $end
+$var reg 1 = d7 $end
+$var reg 7 > ou [6:0] $end
+$var reg 1 ? p1 $end
+$var reg 1 @ p2 $end
+$var reg 1 A p4 $end
+$upscope $end
+$scope module leds_tb $end
+$var wire 7 B coregido [6:0] $end
+$var reg 7 C led [6:0] $end
+$upscope $end
+$scope module seg_tb $end
+$var wire 4 D bcd [3:0] $end
+$var reg 7 E segments [6:0] $end
+$upscope $end
 $scope module uut $end
-$var wire 7 % dataRaw [6:0] $end
-$var wire 4 & in [3:0] $end
-$var wire 1 $ selector $end
-$var wire 7 ' segments [6:0] $end
-$var wire 3 ( posError [2:0] $end
-$var wire 7 ) led [6:0] $end
-$var wire 7 * dataRaw_muxed [6:0] $end
-$var wire 7 + dataRaw_from_encoder [6:0] $end
-$var wire 7 , dataCorregido [6:0] $end
-$var wire 4 - dataCorrecta [3:0] $end
+$var wire 7 F dataRaw [6:0] $end
+$var wire 4 G in [3:0] $end
+$var wire 1 1 selector $end
+$var wire 7 H segments_error [6:0] $end
+$var wire 7 I segments [6:0] $end
+$var wire 3 J posError [2:0] $end
+$var wire 7 K led [6:0] $end
+$var wire 4 L errorDisplay [3:0] $end
+$var wire 7 M dataRaw_muxed [6:0] $end
+$var wire 7 N dataRaw_from_encoder [6:0] $end
+$var wire 7 O dataCorregido [6:0] $end
+$var wire 4 P dataCorrecta [3:0] $end
 $scope module corrector $end
-$var wire 7 . dataRaw [6:0] $end
-$var wire 3 / sindrome [2:0] $end
-$var reg 7 0 correccion [6:0] $end
-$var reg 4 1 dataCorrecta [3:0] $end
+$var wire 7 Q dataRaw [6:0] $end
+$var wire 3 R sindrome [2:0] $end
+$var reg 7 S correccion [6:0] $end
+$var reg 4 T dataCorrecta [3:0] $end
 $upscope $end
 $scope module detector $end
-$var wire 7 2 dataRaw [6:0] $end
-$var reg 3 3 posError [2:0] $end
+$var wire 7 U dataRaw [6:0] $end
+$var reg 3 V posError [2:0] $end
 $upscope $end
 $scope module display $end
-$var wire 7 4 coregido [6:0] $end
-$var reg 7 5 led [6:0] $end
+$var wire 7 W coregido [6:0] $end
+$var reg 7 X led [6:0] $end
+$upscope $end
+$scope module display_error $end
+$var wire 4 Y bcd [3:0] $end
+$var reg 7 Z segments [6:0] $end
 $upscope $end
 $scope module display_hex $end
-$var wire 4 6 bcd [3:0] $end
-$var reg 7 7 segments [6:0] $end
+$var wire 4 [ bcd [3:0] $end
+$var reg 7 \ segments [6:0] $end
 $upscope $end
 $scope module encoder $end
-$var wire 4 8 in [3:0] $end
-$var reg 1 9 d3 $end
-$var reg 1 : d5 $end
-$var reg 1 ; d6 $end
-$var reg 1 < d7 $end
-$var reg 7 = ou [6:0] $end
-$var reg 1 > p1 $end
-$var reg 1 ? p2 $end
-$var reg 1 @ p4 $end
+$var wire 4 ] in [3:0] $end
+$var reg 1 ^ d3 $end
+$var reg 1 _ d5 $end
+$var reg 1 ` d6 $end
+$var reg 1 a d7 $end
+$var reg 7 b ou [6:0] $end
+$var reg 1 c p1 $end
+$var reg 1 d p2 $end
+$var reg 1 e p4 $end
 $upscope $end
 $upscope $end
 $upscope $end
@@ -60,106 +109,272 @@ $dumpall
 $end
 #0
 $dumpvars
-0@
-1?
-0>
-b1010010 =
-1<
-0;
-1:
-09
-b1010 8
-b1000 7
-b1010 6
-b101101 5
-b1010010 4
-b0 3
-b1010010 2
-b1010 1
-b1010010 0
-b0 /
-b1010010 .
-b1010 -
-b1010010 ,
-b1010010 +
-b1010010 *
-b101101 )
-b0 (
-b1000 '
-b1010 &
-bx %
-0$
-b1010 #
-bx "
-b101101 !
-$end
-#10000
-b1000000 '
-b1000000 7
-b1111111 !
-b1111111 )
-b1111111 5
-b0 -
-b0 1
-b0 6
-b0 ,
-b0 0
-b0 4
-b1 (
-b1 /
-b1 3
-b1 *
-b1 .
-b1 2
-b1 "
-b1 %
-1$
-#20000
-b100001 '
-b100001 7
-b11001 !
-b11001 )
-b11001 5
-b1101 -
-b1101 1
-b1101 6
-b1100110 ,
-b1100110 0
-b1100110 4
-b0 (
-b0 /
-b0 3
-b1100110 *
-b1100110 .
-b1100110 2
-b1100110 +
-b1100110 =
-19
-0:
+xe
+xd
+xc
+bx b
+xa
+x`
+x_
+x^
+bx ]
+bx \
+bx [
+b1100011 Z
+b0xxx Y
+bx X
+bx W
+bx V
+bx U
+bx T
+bx S
+bx R
+bx Q
+bx P
+bx O
+bx N
+bx M
+b0xxx L
+bx K
+bx J
+bx I
+b1100011 H
+bx G
+bx F
+bx E
+bx D
+bx C
+bx B
+0A
+1@
+0?
+b1010010 >
+1=
+0<
 1;
-0$
-b1101 #
-b1101 &
-b1101 8
-#30000
-b1110 '
-b1110 7
-b0 !
+0:
+b1010 9
+bx 8
+bx 7
+bx 6
+bx 5
+bx 4
+bx 3
+bx 2
+x1
+b1010 0
+bx /
+bx .
+bx -
+bx ,
+bx +
+bx *
+bx )
+bx (
+bx '
+bx &
+b1010010 %
+bx $
+bx #
+bx "
+b1100011 !
+$end
+#1000
+b1111111 %
+b1111111 >
+1A
+1?
+1:
+1<
+b1111 0
+b1111 9
+#2000
+b0 %
+b0 >
+0A
+0@
+0?
+0:
+0;
+0<
+0=
+b0 0
+b0 9
+#3000
+b101 $
+b101 8
+b1000101 .
+b1000101 7
+#4000
+b1 $
+b1 8
+b1 .
+b1 7
+#5000
+b111 $
+b111 8
+b111111 .
+b111111 7
+#6000
+b1011 (
+b1011 6
+b1010101 )
+b1010101 5
+b101 2
+b101 4
+b1000101 -
+b1000101 3
+#7000
+b0 (
+b0 6
 b0 )
 b0 5
-b1111 -
-b1111 1
-b1111 6
-b1111111 ,
-b1111111 0
-b1111111 4
-b1 (
-b1 /
+b1 2
+b1 4
+b1 -
 b1 3
-b1111110 *
-b1111110 .
-b1111110 2
-1$
-b1111110 "
-b1111110 %
-#40000
+#8000
+b1111 (
+b1111 6
+b1111111 )
+b1111111 5
+b111 2
+b111 4
+b111111 -
+b111111 3
+#9000
+b101010 &
+b101010 C
+b1010101 +
+b1010101 B
+#10000
+b0 &
+b0 C
+b1111111 +
+b1111111 B
+#11000
+b1111111 &
+b1111111 C
+b0 +
+b0 B
+#12000
+b1000 #
+b1000 E
+b1010 *
+b1010 D
+#13000
+b1000000 #
+b1000000 E
+b0 *
+b0 D
+#14000
+b100100 #
+b100100 E
+b10 *
+b10 D
+#15000
+b10000 #
+b10000 E
+b1001 *
+b1001 D
+#16000
+b1000000 !
+b1000000 H
+b1000000 Z
+b1000 "
+b1000 I
+b1000 \
+b101101 '
+b101101 K
+b101101 X
+b0 L
+b0 Y
+b1010 P
+b1010 T
+b1010 [
+b1010010 O
+b1010010 S
+b1010010 W
+b0 J
+b0 R
+b0 V
+b1010010 M
+b1010010 Q
+b1010010 U
+b1010010 N
+b1010010 b
+0e
+1d
+0c
+0^
+1_
+0`
+1a
+b0 ,
+b0 F
+b1010 /
+b1010 G
+b1010 ]
+01
+#26000
+b10010 !
+b10010 H
+b10010 Z
+b11 "
+b11 I
+b11 \
+b101010 '
+b101010 K
+b101010 X
+b101 L
+b101 Y
+b1011 P
+b1011 T
+b1011 [
+b1010101 O
+b1010101 S
+b1010101 W
+b101 J
+b101 R
+b101 V
+b1000101 M
+b1000101 Q
+b1000101 U
+b1000101 ,
+b1000101 F
+11
+#36000
+b1111001 !
+b1111001 H
+b1111001 Z
+b10 "
+b10 I
+b10 \
+b1001100 '
+b1001100 K
+b1001100 X
+b1 L
+b1 Y
+b110 P
+b110 T
+b110 [
+b110011 O
+b110011 S
+b110011 W
+b1 J
+b1 R
+b1 V
+b110010 M
+b110010 Q
+b110010 U
+b110011 N
+b110011 b
+1c
+1`
+0a
+b110010 ,
+b110010 F
+b110 /
+b110 G
+b110 ]
+#46000
