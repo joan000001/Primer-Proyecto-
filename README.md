@@ -216,15 +216,11 @@ Se define el valor que va a tener selector. Se genera digitalmente la señal rec
 ```
 Resultados obtenidos al ejecutar el make test
 
-========================== Pruebas del modulo top ================================
-Caso | selector | in (ref) | dataRaw (error) | Corrected (7-bit) | 7seg (hex)
-  1   |   0    |   1010   |    0000000    |      0101101      |  0001000
-Caso | selector | in (ref) | dataRaw (error) | Corrected (7-bit) | 7seg (hex)
-  1   |   0    |   1010   |    0000000    |      0101101      |  0001000
-  1   |   0    |   1010   |    0000000    |      0101101      |  0001000
-  2   |   1    |   1010   |    1000101    |      0101010      |  0000011
-  3   |   1    |   0110   |    0110010    |      1001100      |  0000010
-
+- ========================== Pruebas del modulo top ================================
+- Caso | selector | in (ref) | dataRaw (error) | Corrected (7-bit) | 7seg (hex)
+-   1   |   0    |   1010   |    0000000    |      0101101      |  0001000
+-   2   |   1    |   1010   |    1000101    |      0101010      |  0000011
+-   3   |   1    |   0110   |    0110010    |      1001100      |  0000010
 
 ### 3.2 Módulo 2
 
@@ -349,9 +345,9 @@ $display("hamming74: in=%b => out=%b", in_enc, out_enc);
 ```
 Resultados obtenidos al ejecutar el make test
 
-hamming74: in=1010 => out=1010010
-hamming74: in=1111 => out=1111111
-hamming74: in=0000 => out=0000000
+- hamming74: in=1010 => out=1010010
+- hamming74: in=1111 => out=1111111
+- hamming74: in=0000 => out=0000000
 
 
 
@@ -446,9 +442,9 @@ Tersera pueba prueba error en el bit 1
 ```
 Resultados obtenidos al ejecutar el make test
 
-hamming_detection: dataRaw=1000101 => posError=101
-hamming_detection: dataRaw=0000001 => posError=001
-hamming_detection: dataRaw=0111111 => posError=111
+- hamming_detection: dataRaw=1000101 => posError=101
+- hamming_detection: dataRaw=0000001 => posError=001
+- hamming_detection: dataRaw=0111111 => posError=111
 
 
 ### 3.4 Módulo 4
@@ -550,6 +546,36 @@ dataCorrecta[2]: Bit de datos original correspondiente al bit 5.
 dataCorrecta[1]: Bit de datos original correspondiente al bit 4.
 dataCorrecta[0]: Bit de datos original correspondiente al bit 2.
 
+#### 4.3 Diagrama del Codificador Hamming (7,4)
+
+
+
+#### 5. Testbench
+Descripción y resultados de las pruebas hechas
+
+```SystemVerilog
+data_corr = 7'b1000101;
+        sindrome = 3'b101;  
+        #1;
+        $display("correccion_error: in=%b, sindrome=%b => corregido=%b, dato=%b",
+                 data_corr, sindrome, corregido, data_correcta);
+        data_corr = 7'b0000001;
+        sindrome = 3'b001;  
+        #1;
+        $display("correccion_error: in=%b, sindrome=%b => corregido=%b, dato=%b",
+                 data_corr, sindrome, corregido, data_correcta);
+        data_corr = 7'b0111111;
+        sindrome = 3'b111; 
+        #1;
+        $display("correccion_error: in=%b, sindrome=%b => corregido=%b, dato=%b",
+                 data_corr, sindrome, corregido, data_correcta);
+```
+Resultados obtenidos al ejecutar el make test
+
+- correccion_error: in=1000101, sindrome=101 => corregido=1010101, dato=1011
+- correccion_error: in=0000001, sindrome=001 => corregido=0000000, dato=0000
+- correccion_error: in=0111111, sindrome=111 => corregido=1111111, dato=1111
+
 
 
 
@@ -615,6 +641,29 @@ Aquí se asignan los valores de coregido a los LEDs. Cada bit de coregido se inv
 
 ![alt text](image.png)
 
+#### 4.3 Diagrama del Codificador Hamming (7,4)
+
+
+
+#### 5. Testbench
+Descripción y resultados de las pruebas hechas
+
+```SystemVerilog
+ coregido_leds = 7'b1010101;
+        #1;
+        $display("display_7bits_leds: in=%b => leds=%b", coregido_leds, leds_out);
+        coregido_leds = 7'b1111111;
+        #1;
+        $display("display_7bits_leds: in=%b => leds=%b", coregido_leds, leds_out);
+        coregido_leds = 7'b0000000;
+        #1;
+        $display("display_7bits_leds: in=%b => leds=%b", coregido_leds, leds_out);
+```
+Resultados obtenidos al ejecutar el make test
+- display_7bits_leds: in=1010101 => leds=0101010
+- display_7bits_leds: in=1111111 => leds=0000000
+- display_7bits_leds: in=0000000 => leds=1111111
+
 
 ### 3.6 Módulo 6
 
@@ -629,24 +678,21 @@ module sevseg(
 ```
 #### 2. Parámetros
 
-Este módulo no utiliza parámetros configurables, ya que se trata de una implementación fija de inversión de bits.
+El módulo no tiene parámetros configurables, pero su funcionamiento se basa en la representación de números en un display de 7 segmentos
 
 #### 3. Entradas y salidas:
 
-Entradas:
+- Entradas:
+bcd: Un vector de 4 bits que representa un número en formato BCD. Este número puede estar en el rango de 0 a 15, aunque solo los valores de 0 a 9 se utilizan comúnmente para mostrar dígitos.
 
-coregido (7 bits): Representa la señal de entrada que se desea visualizar en los LEDs.
-
-Salidas:
-
-led (7 bits): Representa la salida invertida de la entrada coregido, que se conecta a un conjunto de LEDs.
-
+- Salidas:
+segments: Un vector de 7 bits que controla los segmentos del display. Cada bit en este vector representa un segmento del display (a-g), donde un 0 enciende el segmento y un 1 lo apaga.
 
 #### 4. Criterios de diseño
 
 #### 4.1 Introducción
 
-- El diseño de este módulo sigue una arquitectura combinacional sencilla, donde la salida se calcula en función de la entrada sin necesidad de registros o almacenamiento temporal. Esto significa que los cambios en la entrada se reflejan inmediatamente en la salida.
+El display de 7 segmentos es un dispositivo que puede mostrar números y algunas letras al encender o apagar sus segmentos. Este módulo convierte un número BCD en la configuración de segmentos necesaria para mostrar el número correspondiente en el display.
 
 #### 4.2 Explicación del Código
 
@@ -694,48 +740,131 @@ Por ejemplo, 7'b1000000 enciende el segmento "a" para mostrar el número 0, mien
 Los valores de bcd de 10 a 15 (A-F) también están mapeados, lo que permite mostrar letras en el display.
 default: Si el valor de bcd no coincide con ninguno de los casos anteriores, se asigna un valor que apaga el display (en este caso, 7'b1100011).
 
+#### 4.3 Diagrama del Codificador Hamming (7,4)
 
 
+
+#### 5. Testbench
 Descripción y resultados de las pruebas hechas
 
+```SystemVerilog
+   bcd_val = 4'hA; 
+        #1;
+        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
+        bcd_val = 4'h0; 
+        #1;
+        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
+        bcd_val = 4'h2; 
+        #1;
+        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
+        bcd_val = 4'h9; 
+        #1;
+        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
+        
+```
+Resultados obtenidos al ejecutar el make test
+
+- sevseg: bcd=a => seg=0001000
+- sevseg: bcd=0 => seg=1000000
+- sevseg: bcd=2 => seg=0100100
+- sevseg: bcd=9 => seg=0010000
 
 
 
+#### 5. Testbench
+Descripción y resultados de las pruebas hechas
 
+```SystemVerilog
+  bcd_val = 4'hA; 
+        #1;
+        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
+        bcd_val = 4'h0; 
+        #1;
+        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
+        bcd_val = 4'h2; 
+        #1;
+        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
+        bcd_val = 4'h9; 
+        #1;
+        $display("sevseg: bcd=%h => seg=%b", bcd_val, seg_out);
+```
+Resultados obtenidos al ejecutar el make test
 
-
-
-
-
-
-
-
-
-
-
+- sevseg: bcd=a => seg=0001000
+- sevseg: bcd=0 => seg=1000000
+- sevseg: bcd=2 => seg=0100100
+- sevseg: bcd=9 => seg=0010000
 
 
 
 
 ## 4. Consumo de recursos
+Resumen de Recursos Utilizados
+
+### 4.1 Conexiones (Wires)
+- Número total de conexiones: 41
+- Número total de bits de conexión: 127
+- Conexiones públicas: 41
+- Bits de conexiones públicas: 127
+### 4.2 Memorias
+- Número de memorias: 0
+- Bits de memoria: 0
+### 4.3  Celdas (Cells)
+- Total de celdas: 50
+- GND: 1
+- IBUF (Buffers de entrada): 12
+- LUT1 (Look-Up Tables de 1 entrada): 6
+- LUT3: 6
+- LUT4: 11
+- MUX2_LUT5: 6
+- MUX2_LUT6: 1
+- OBUF (Buffers de salida): 7
+### 4.4  Utilización del Dispositivo
+- VCC (Voltaje de alimentación): 1/1 (100%)
+- SLICE: 23/8640 (0%)
+- IOB (Input/Output Blocks): 19/274 (6%)
+- ODDR (Double Data Rate Output): 0/274 (0%)
+- MUX2_LUT5: 6/4320 (0%)
+- MUX2_LUT6: 1/2160 (0%)
+- GND: 1/1 (100%)
+- GSR (Global Set/Reset): 1/1 (100%)
+- OSC (Oscilador): 0/1 (0%)
+- rPLL (Phase-Locked Loop): 0/2 (0%)
+- Resultados de la Herramienta BC y ABC
+- BC RESULTS:
+- Celdas LUT: 16
+- ABC RESULTS:
+- Señales internas: 51
+- Señales de entrada: 12
+- Señales de salida: 7
+### 4.5 Rendimiento y Tiempos de Retardo
+- Max delay: Se reporta un retardo máximo de 23.84 ns, lo que es importante para asegurar que el diseño cumpla con los requisitos de temporización.
 
 ## 5. Problemas encontrados durante el proyecto
 
-## Apendices:
-### Apendice 1:
-texto, imágen, etc
+Durante la realización de este proyecto se presentaron diversos errores que afectarán su desarrollo. Uno de los principales inconvenientes surgió al intentar desplegar información en los LEDs de la FPGA. Debido a una interpretación incorrecta de los planos de conexión de la FPGA. Como resultado, la información se muestra de forma invertida, ya que era necesario negar previamente los valores enviados a los LED.
+
+Otro problema significativo fue la incompatibilidad al implementar ciertas herramientas, particularmente con SystemVerilog, a diferencia de Verilog, lo que impidió realizar la síntesis correctamente mediante Yosys.
+
+También se presentan dificultades con el despliegue de información en los displays de siete segmentos, ya que estos no reciben correctamente los datos enviados desde la FPGA.
+
+La integración de los distintos módulos en el módulo superior generó múltiples complicaciones , tanto a nivel de sintaxis como en la lógica utilizada, lo cual requirió una revisión detallada de cada componente.
+
+Finalmente, uno de los errores más críticos estuvo relacionado con la correcta implementación de las constraints , ya que fue necesario especificar adecuadamente el tipo de entrada y resistencias pull-up o pull-down .
+
+
 
 # Oscilador en anillo
 
 ## 1. Primera Medición
 Para la primera medición realizada el oscilador de anillos se utilizaron cinco compuertas not el resultado de la medición se muestra en la siguiente imagen
 
-imagen
+![alt text](<WhatsApp Image 2025-04-02 at 10.54.11 PM.jpeg>)
 
-- Tención max:6.48 v
-- Tencion min:-2.1 v
-- Tiempo aproximado de la osilación: 50 ns
-- Frecianecia de Ocilación aproximada: 20MHz
+- Tención max:3.1 v
+- Tencion min:0.231 mv
+- Tiempo aproximado de la osilación: 30 ns
+- Frecianecia de Ocilación aproximada: 33.3MHz
 
 En la primera medición, se observa la señal generada por un oscilador en anillo basado en un 74LS04. A diferencia de la onda cuadrada ideal, la forma de la señal presenta una ligera curvatura en los flancos, producto de los tiempos de carga y los retardos de propagación propios de la familia TTL. Aun así, los tiempos de subida y bajada, cercanos a 15 ns, se encuentran dentro de los valores típicos para un 74LS04. Además, se aprecian picos por encima y por debajo de los niveles esperados, causados principalmente por la inductancia y capacidad parásitas del circuito, así como por el acoplamiento de la sonda del osciloscopio. En conjunto, estos resultados confirman el comportamiento previsto para un oscilador en anillo con compuertas TTL.
 
@@ -743,13 +872,45 @@ En la primera medición, se observa la señal generada por un oscilador en anill
 
 Para la segunda medición se conectaron tres inversores en anillo
 
-imagen
+![alt text](<WhatsApp Image 2025-04-02 at 10.54.11 PM (2).jpeg>)
 
-- Tención max:6.48 v
-- Tencion min:-2.1 v
+- Tención max:4.40 v
+- Tencion min:-1.2 v
 - Tiempo aproximado de la osilación: 75 ns
 - Frecianecia de Ocilación aproximada: 13.3MHz
 
 
+
+## 3. Tercera Medición
+
+Para la segunda medición realizada se conectaron tres inversores en anillo y se alargó la conexión con un cable de aproximadamente un metro
+
+![alt text](83c0b9d9-42ce-4fd0-9305-fb2c32216c30.jfif)
+
+- Tención max:6.48 v
+- Tencion min:-2.1 v
+- Tiempo aproximado de la osilación: 55 ns
+- Frecianecia de Ocilación aproximada: 18.2MHz
+
 Al introducir un metro de cable calibre 22 entre la salida del último inversor y la entrada del primero, se aprecian variaciones en los tiempos de subida y bajada, así como en el período de oscilación. Esto coincide con el retardo adicional aportado por la longitud del cable y sus elementos parásitos (resistencia, inductancia, etc.), que prolongan el tiempo total de propagación de la señal.
+
+
+
+
+## 4. Cuarta Medición
+
+
+Finalmente para la última medición se conecta la entrada con la salida de una compuerta 
+
+![alt text](7c8bf879-37a3-4b93-81af-5d4e2611bcfa.jfif)
+
+- Tención max:376 mv
+- Tencion min:-552 v
+- Tiempo aproximado de la osilación: 10 ns
+- Frecianecia de Ocilación aproximada: 100MHz 
+
+Al retroalimentar la salida de la compuerta con su propia entrada, el circuito deja de comportarse como un oscilador puramente digital y se estabiliza cerca de un punto de polarización intermedio. Esto produce una señal de baja amplitud, con forma casi sinusoidal, en lugar de los niveles lógicos típicos de alta y baja
+
+
+
 

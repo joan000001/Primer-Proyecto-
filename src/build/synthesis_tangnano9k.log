@@ -865,7 +865,7 @@ Generating RTLIL representation for module `\$_DFFE_PP0P_'.
 Generating RTLIL representation for module `\$_DFFE_NP0P_'.
 Generating RTLIL representation for module `\$lut'.
 Successfully finished Verilog frontend.
-
+Power Analysis
 6.18.2. Continuing TECHMAP pass.
 No more expansions possible.
 <suppressed ~23 debug messages>
