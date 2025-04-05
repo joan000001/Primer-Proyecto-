@@ -859,7 +859,7 @@ Al introducir un metro de cable calibre 22 entre la salida del último inversor 
 
 Finalmente para la última medición se conecta la entrada con la salida de una compuerta 
 
-![alt text](quinta-1.jfif)
+![image alt](quinta-1.jfif)
 
 - Tención max:376 mv
 - Tencion min:-552 v
