@@ -38,7 +38,7 @@ module top (
 
 El módulo superior recibe tres parámetros principales:
 
-- in:Es unaInterruptor DIP . Esta señal será enviada al módulo de Hamming para su codificación.
+- in:Es un interruptor DIP . Esta señal será enviada al módulo de Hamming para su codificación.
 
 - dataraw: Es una señal de entrada de 7 bits, también proveniente de unInterruptor DIP . Representa una palabra ya codificada con un error inducido intencionalmente, con el propósito de ser corregida por el sistema.
 
