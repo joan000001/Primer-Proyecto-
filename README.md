@@ -816,7 +816,7 @@ Finalmente, uno de los errores más críticos estuvo relacionado con la correcta
 ## 1. Primera Medición
 Para la primera medición realizada el oscilador de anillos se utilizaron cinco compuertas not el resultado de la medición se muestra en la siguiente imagen
 
-![alt text](<WhatsApp Image 2025-04-02 at 10.54.11 PM.jpeg>)
+![image Alt](https://github.com/joan000001/Primer-Proyecto-/blob/d37ef954bff2eb33884548af25516067fe7d2bd9/segunda.png)
 
 - Tención max:3.1 v
 - Tencion min:0.231 mv
@@ -829,7 +829,7 @@ En la primera medición, se observa la señal generada por un oscilador en anill
 
 Para la segunda medición se conectaron tres inversores en anillo
 
-![alt text](<WhatsApp Image 2025-04-02 at 10.54.11 PM (2).jpeg>)
+![image Alt](https://github.com/joan000001/Primer-Proyecto-/blob/d37ef954bff2eb33884548af25516067fe7d2bd9/tercera.jpeg)
 
 - Tención max:4.40 v
 - Tencion min:-1.2 v
@@ -842,7 +842,8 @@ Para la segunda medición se conectaron tres inversores en anillo
 
 Para la segunda medición realizada se conectaron tres inversores en anillo y se alargó la conexión con un cable de aproximadamente un metro
 
-![alt text](83c0b9d9-42ce-4fd0-9305-fb2c32216c30.jfif)
+![image Alt](https://github.com/joan000001/Primer-Proyecto-/blob/d37ef954bff2eb33884548af25516067fe7d2bd9/cuarta.jfif)
+
 
 - Tención max:6.48 v
 - Tencion min:-2.1 v
@@ -859,7 +860,8 @@ Al introducir un metro de cable calibre 22 entre la salida del último inversor 
 
 Finalmente para la última medición se conecta la entrada con la salida de una compuerta 
 
-![image alt](quinta-1.jfif)
+![image Alt](https://github.com/joan000001/Primer-Proyecto-/blob/d37ef954bff2eb33884548af25516067fe7d2bd9/quinta.jfif)
+
 
 - Tención max:376 mv
 - Tencion min:-552 v
