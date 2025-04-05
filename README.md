@@ -38,25 +38,25 @@ module top (
 
 El módulo superior recibe tres parámetros principales:
 
-in:Es unaInterruptor DIP . Esta señal será enviada al módulo de Hamming para su codificación.
+- in:Es unaInterruptor DIP . Esta señal será enviada al módulo de Hamming para su codificación.
 
-dataraw: Es una señal de entrada de 7 bits, también proveniente de unInterruptor DIP . Representa una palabra ya codificada con un error inducido intencionalmente, con el propósito de ser corregida por el sistema.
+- dataraw: Es una señal de entrada de 7 bits, también proveniente de unInterruptor DIP . Representa una palabra ya codificada con un error inducido intencionalmente, con el propósito de ser corregida por el sistema.
 
-selector: Permite elegir qué información se mostrará en la pantalla de siete segmentos y qué datos serán enviados a los LED. Según su valor, "0" selecciona la palabra codificada (in) o "1", selecciona la palabra corregida (proveniente de dataraw).
+- selector: Permite elegir qué información se mostrará en la pantalla de siete segmentos y qué datos serán enviados a los LED. Según su valor, "0" selecciona la palabra codificada (in) o "1", selecciona la palabra corregida (proveniente de dataraw).
 
 
 #### 3. Entradas y salidas:
 
 Entradas:
-in: [3:0] (4 bits) - Datos originales.
-dataRaw: [6:0] (7 bits) - Código Hamming con posible error.
-selector: (1 bit) - Control para seleccionar entre el código Hamming generado o el manual.
+- in: [3:0] (4 bits) - Datos originales.
+- dataRaw: [6:0] (7 bits) - Código Hamming con posible error.
+- selector: (1 bit) - Control para seleccionar entre el código Hamming generado o el manual.
 
 
 Salidas:
-led: [6:0] (7 bits) - Datos corregidos mostrados en LEDs.
-segments: [6:0] (7 bits) - Dato corregido en formato hexadecimal.
-segments_error: [6:0] (7 bits) - Bit donde se detectó el error.
+- led: [6:0] (7 bits) - Datos corregidos mostrados en LEDs.
+- segments: [6:0] (7 bits) - Dato corregido en formato hexadecimal.
+- segments_error: [6:0] (7 bits) - Bit donde se detectó el error.
 #### 4. Criterios de diseño
 
 
@@ -78,9 +78,9 @@ module top (
     output [6:0] segments_error
 );
 ```
-module top: Define el módulo principal llamado top.
-input: Se declaran las entradas del módulo, especificando el tamaño de cada una.
-output: Se declaran las salidas del módulo, también especificando el tamaño.
+- module top: Define el módulo principal llamado top.
+- input: Se declaran las entradas del módulo, especificando el tamaño de cada una.
+- output: Se declaran las salidas del módulo, también especificando el tamaño.
 
 
 - 2. Señales Internas
@@ -179,8 +179,6 @@ sevseg display_error(
 ```
 sevseg display_error: Se instancia otro módulo de visualización que muestra la posición del error en un display de 7 segmentos.
 
-#### 4.3 Diagrama del Codificador Hamming (7,4)
-
 
 #### 5. Testbench
 
@@ -257,9 +255,9 @@ module hamming74 (
   output reg [6:0] ou
 );
 ```
-module hamming74: Define el módulo llamado hamming74.
-input [3:0] in: Declara una entrada de 4 bits que representa los datos originales que se desean codificar.
-output reg [6:0] ou: Declara una salida de 7 bits que contendrá el código Hamming generado. Se utiliza reg porque la salida se asigna dentro de un bloque always.
+- module hamming74: Define el módulo llamado hamming74.
+- input [3:0] in: Declara una entrada de 4 bits que representa los datos originales que se desean codificar.
+- output reg [6:0] ou: Declara una salida de 7 bits que contendrá el código Hamming generado. Se utiliza reg porque la salida se asigna dentro de un bloque always.
 
 - 2. Declaración de Registros Internos
 ```SystemVerilog
@@ -267,9 +265,9 @@ output reg [6:0] ou: Declara una salida de 7 bits que contendrá el código Hamm
 reg d3, d5, d6, d7;
 reg p1, p2, p4;
 ```
-reg: Se declaran registros internos que se utilizarán para almacenar los bits de datos y paridad.
-d3, d5, d6, d7: Representan los bits de datos originales.
-p1, p2, p4: Representan los bits de paridad que se calcularán a partir de los bits de datos.
+- reg: Se declaran registros internos que se utilizarán para almacenar los bits de datos y paridad.
+- d3, d5, d6, d7: Representan los bits de datos originales.
+- p1, p2, p4: Representan los bits de paridad que se calcularán a partir de los bits de datos.
 
 - 3. Bloque Always
 ```SystemVerilog
@@ -298,10 +296,10 @@ p1 = d3 ^ d5 ^ d7;
 p2 = d3 ^ d6 ^ d7;
 p4 = d5 ^ d6 ^ d7;
 ```
-XOR (^): Se utilizan operaciones XOR para calcular los bits de paridad:
-p1: Paridad para el primer bit de paridad, que cubre los bits d3, d5 y d7.
-p2: Paridad para el segundo bit de paridad, que cubre los bits d3, d6 y d7.
-p4: Paridad para el cuarto bit de paridad, que cubre los bits d5, d6 y d7.
+- XOR (^): Se utilizan operaciones XOR para calcular los bits de paridad:
+- p1: Paridad para el primer bit de paridad, que cubre los bits d3, d5 y d7.
+- p2: Paridad para el segundo bit de paridad, que cubre los bits d3, d6 y d7.
+- p4: Paridad para el cuarto bit de paridad, que cubre los bits d5, d6 y d7.
 
 
 - 6. Asignación de la Salida
@@ -318,15 +316,13 @@ ou[0] = p1;
 ```
 
 Aquí se asignan los bits de datos y paridad a la salida ou. La salida se organiza de la siguiente manera:
-ou[6]: Bit de datos d7.
-ou[5]: Bit de datos d6.
-ou[4]: Bit de datos d5.
-ou[3]: Bit de paridad p4.
-ou[2]: Bit de datos d3.
-ou[1]: Bit de paridad p2.
-ou[0]: Bit de paridad p1.
-
-#### 4.3 Diagrama del Codificador Hamming (7,4)
+- ou[6]: Bit de datos d7.
+- ou[5]: Bit de datos d6.
+- ou[4]: Bit de datos d5.
+- ou[3]: Bit de paridad p4.
+- ou[2]: Bit de datos d3.
+- ou[1]: Bit de paridad p2.
+- ou[0]: Bit de paridad p1.
 
 
 #### 5. Testbench
@@ -370,15 +366,11 @@ El parámetro recibido en este módulo es 'dataRaw', que se encarga de transmiti
 
 #### 3. Entradas y salidas
 Entradas:
-dataRaw: Un vector de 7 bits que representa los datos codificados que se han recibido. Este vector puede contener errores que deben ser detectados.
+- dataRaw: Un vector de 7 bits que representa los datos codificados que se han recibido. Este vector puede contener errores que deben ser detectados.
 Salidas:
-posError: Un vector de 3 bits que indica la posición del error detectado. Si no se detecta ningún error, el valor de posError será 000.
+- posError: Un vector de 3 bits que indica la posición del error detectado. Si no se detecta ningún error, el valor de posError será 000.
 #### 4. Criterios de diseño
-El diseño del módulo se basa en la capacidad del código de Hamming para detectar errores. Los criterios de diseño incluyen:
 
-Detección de errores: El módulo debe ser capaz de identificar la posición de un solo error en los datos recibidos.
-Simplicidad: La implementación debe ser clara y fácil de entender.
-Eficiencia: La lógica de detección debe ser rápida y no consumir muchos recursos.
 #### 4.1 Introducción
 
 Gracias al uso de la paridad en los bits, el código de Hamming permite detectar errores al calcular la paridad de un arreglo de bits. En este proceso, cada bit de paridad se encarga de verificar tres bits de información.
@@ -408,13 +400,10 @@ posError[1] = dataRaw[1] ^ dataRaw[2] ^ dataRaw[5] ^ dataRaw[6];
 posError[2] = dataRaw[3] ^ dataRaw[4] ^ dataRaw[5] ^ dataRaw[6];
 ```
 
-XOR (^): Se utilizan operaciones XOR para calcular los bits de paridad que se utilizan para determinar la posición del error:
-posError[0]: Se calcula utilizando los bits dataRaw[0], dataRaw[2], dataRaw[4] y dataRaw[6]. Este bit indica si hay un error en los bits que cubre.
-posError[1]: Se calcula utilizando los bits dataRaw[1], dataRaw[2], dataRaw[5] y dataRaw[6]. Este bit también indica la presencia de un error en su conjunto de bits.
-posError[2]: Se calcula utilizando los bits dataRaw[3], dataRaw[4], dataRaw[5] y dataRaw[6]. Este bit indica si hay un error en los bits que cubre.
-
-#### 4.3 Diagrama del Codificador Hamming (7,4)
-
+- XOR (^): Se utilizan operaciones XOR para calcular los bits de paridad que se utilizan para determinar la posición del error:
+- posError[0]: Se calcula utilizando los bits dataRaw[0], dataRaw[2], dataRaw[4] y dataRaw[6]. Este bit indica si hay un error en los bits que cubre.
+- posError[1]: Se calcula utilizando los bits dataRaw[1], dataRaw[2], dataRaw[5] y dataRaw[6]. 
+- posError[2]: Se calcula utilizando los bits dataRaw[3], dataRaw[4], dataRaw[5] y dataRaw[6]. 
 
 
 #### 5. Testbench
@@ -422,9 +411,9 @@ posError[2]: Se calcula utilizando los bits dataRaw[3], dataRaw[4], dataRaw[5] y
 Descripción y resultados de las pruebas hechas
 
 Errores inducidos en orden:
-Priemra prueba error en el bit 5
-Segunda prueba error en el bit 1
-Tersera pueba prueba error en el bit 1
+- Priemra prueba error en el bit 5
+- Segunda prueba error en el bit 1
+- Tersera pueba prueba error en el bit 1
 
 
 
@@ -465,12 +454,12 @@ El módulo ``` correccion_error ```  recibe la señal dataRaw , que proviene dir
 
 #### 3. Entradas y salidas
 
-Entradas:
+- Entradas:
 dataRaw: Un vector de 7 bits que representa los datos codificados que se han recibido, que pueden contener errores.
 sindrome: Un vector de 3 bits que indica la posición del error detectado. Si no se detecta ningún error, el valor de sindrome será 000.
 
 
-Salidas:
+- Salidas:
 correccion: Un vector de 7 bits que representa los datos corregidos. Este vector es una copia de dataRaw, pero con el bit erróneo corregido si se detectó un error.
 dataCorrecta: Un vector de 4 bits que representa los datos originales extraídos de los datos corregidos.
 
@@ -541,12 +530,10 @@ dataCorrecta[0] = correccion[2];
 
 ```
 Aquí se extraen los 4 bits de datos originales del código Hamming corregido. Los bits se asignan a dataCorrecta en el orden correspondiente:
-dataCorrecta[3]: Bit de datos original correspondiente al bit 6 del código Hamming corregido.
-dataCorrecta[2]: Bit de datos original correspondiente al bit 5.
-dataCorrecta[1]: Bit de datos original correspondiente al bit 4.
-dataCorrecta[0]: Bit de datos original correspondiente al bit 2.
-
-#### 4.3 Diagrama del Codificador Hamming (7,4)
+- dataCorrecta[3]: Bit de datos original correspondiente al bit 6 del código Hamming corregido.
+- dataCorrecta[2]: Bit de datos original correspondiente al bit 5.
+- dataCorrecta[1]: Bit de datos original correspondiente al bit 4.
+- dataCorrecta[0]: Bit de datos original correspondiente al bit 2.
 
 
 
@@ -597,11 +584,11 @@ Este módulo no utiliza parámetros configurables, ya que se trata de una implem
 
 Entradas:
 
-coregido (7 bits): Representa la señal de entrada que se desea visualizar en los LEDs.
+- coregido (7 bits): Representa la señal de entrada que se desea visualizar en los LEDs.
 
 Salidas:
 
-led (7 bits): Representa la salida invertida de la entrada coregido, que se conecta a un conjunto de LEDs.
+- led (7 bits): Representa la salida invertida de la entrada coregido, que se conecta a un conjunto de LEDs.
 
 
 #### 4. Criterios de diseño
@@ -640,8 +627,6 @@ led[6] = ~coregido[6];
 Aquí se asignan los valores de coregido a los LEDs. Cada bit de coregido se invierte (usando la operación NOT ~) antes de ser asignado a la salida led. Esto se hace porque, debido a la conexión física de los LEDs dentro de la FPGA, los LEDs son activados en bajo, lo que significa que se encienden cuando la señal es baja (0) y se apagan cuando la señal es alta (1).
 
 ![alt text](image.png)
-
-#### 4.3 Diagrama del Codificador Hamming (7,4)
 
 
 
@@ -739,8 +724,6 @@ Cada caso corresponde a un valor de bcd y asigna un valor de 7 bits a segments, 
 Por ejemplo, 7'b1000000 enciende el segmento "a" para mostrar el número 0, mientras que 7'b1111001 enciende los segmentos necesarios para mostrar el número 1.
 Los valores de bcd de 10 a 15 (A-F) también están mapeados, lo que permite mostrar letras en el display.
 default: Si el valor de bcd no coincide con ninguno de los casos anteriores, se asigna un valor que apaga el display (en este caso, 7'b1100011).
-
-#### 4.3 Diagrama del Codificador Hamming (7,4)
 
 
 
